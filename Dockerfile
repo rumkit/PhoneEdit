@@ -6,9 +6,9 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 COPY ["PhoneEdit.csproj", "./"]
-RUN dotnet restore "PhoneEdit/PhoneEdit.csproj"
+RUN dotnet restore "PhoneEdit.csproj"
 COPY . .
-WORKDIR "/src/PhoneEdit"
+WORKDIR "/src/"
 RUN dotnet build "PhoneEdit.csproj" -c Release -o /app/build
 
 FROM build AS publish
