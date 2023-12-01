@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using PhoneEdit.Models;
@@ -35,15 +36,13 @@ namespace PhoneEdit.Data
                 entity.Property(e => e.Id)
                     .IsRequired()
                     .HasColumnName("n")
-                    .HasColumnType("int(11)");
+                    .HasColumnType("integer");
 
                 entity.Property(e => e.Room)
-                    .IsRequired()
                     .HasColumnName("komnata")
                     .HasColumnType("varchar(100)");
 
                 entity.Property(e => e.Mail)
-                    .IsRequired()
                     .HasColumnName("mail")
                     .HasColumnType("varchar(250)");
 
@@ -62,12 +61,10 @@ namespace PhoneEdit.Data
                     .HasColumnType("varchar(5)");
 
                 entity.Property(e => e.CityPhoneNumber)
-                    .IsRequired()
                     .HasColumnName("telg")
                     .HasColumnType("varchar(100)");
 
                 entity.Property(e => e.LocalPhoneNumber)
-                    .IsRequired()
                     .HasColumnName("telm")
                     .HasColumnType("varchar(50)");
 
