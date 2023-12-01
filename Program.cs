@@ -16,7 +16,7 @@ builder.Services.Configure<CookiePolicyOptions>(options =>
 // Add services to the container.
 try
 {
-    if (builder.Environment.IsDevelopment())
+    if (!builder.Environment.IsDevelopment())
     {
         var identityContextSecrets = builder.Configuration["ConnectionStringsSec:IdentityContext"] ?? 
                               throw new InvalidOperationException("Connection string 'IdentityContext' not found.");
@@ -66,8 +66,6 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Password.RequiredLength = 6;
     options.Password.RequiredUniqueChars = 3;
 });
-
-builder.Services.AddScoped<IBookService, BookService>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
