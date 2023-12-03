@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
 using PhoneEdit.Data;
+using PhoneEdit.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +12,7 @@ builder.Services.Configure<CookiePolicyOptions>(options =>
     options.CheckConsentNeeded = context => true;
     options.MinimumSameSitePolicy = SameSiteMode.None;
 });
+
 // Add services to the container.
 try
 {
@@ -21,7 +23,7 @@ try
         
     builder.Services.AddDbContext<ApplicationDbContext>(options => 
         options.UseSqlite(identityContextSecrets));
-
+    
     builder.Services.AddDbContext<PhonebookContext>(options => 
         options.UseMySql(phoneBookContextSecrets, ServerVersion.AutoDetect(phoneBookContextSecrets))
             .LogTo(Console.WriteLine, LogLevel.Information)
