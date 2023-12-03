@@ -3,7 +3,7 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:80/",
+      "applicationUrl": "http://localhost:5000/",
       "sslPort": 443
     }
   },
@@ -11,13 +11,13 @@
     "PhoneEdit": {
       "commandName": "Project",
       "launchBrowser": true,
-      "applicationUrl": "http://localhost:80/"
+      "applicationUrl": "http://localhost:5000/"
     },
     "http": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
-      "applicationUrl": "http://localhost:80",
+      "applicationUrl": "http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
@@ -26,7 +26,7 @@
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
-      "applicationUrl": "https://localhost:443;http://localhost:80",
+      "applicationUrl": "https://localhost:5001;http://localhost:5000",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
