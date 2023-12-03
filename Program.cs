@@ -101,6 +101,24 @@ app.MapControllerRoute(
 
 app.MapRazorPages();
 
+// Apply migrations if there are any pending
+using (var scope = app.Services.CreateScope())
+{
+    var appDbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    var phonebookDbContext = scope.ServiceProvider.GetRequiredService<PhonebookContext>();
+    var pendingAppDbContextMigrations = appDbContext.Database.GetPendingMigrations().ToList();
+    var pendingPhonebookDbContextMigrations = phonebookDbContext.Database.GetPendingMigrations().ToList();
+    if (pendingAppDbContextMigrations.Count > 0)
+    {
+        appDbContext.Database.Migrate();
+    }
+    
+    if (pendingPhonebookDbContextMigrations.Count > 0)
+    {
+        phonebookDbContext.Database.Migrate();
+    }
+}
+
 var serviceProvider = builder.Services.BuildServiceProvider();
 SampleData.CreateDefaultUser(serviceProvider).Wait();
 
