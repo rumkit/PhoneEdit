@@ -260,6 +260,7 @@ paket-files/
 __pycache__/
 *.pyc
 
+# Custom ignore rules
 .DS_Store
 *.db*
 *.db
