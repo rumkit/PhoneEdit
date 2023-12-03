@@ -262,4 +262,5 @@ __pycache__/
 
 .DS_Store
 *.db*
+*.db
 docker-compose.yml
