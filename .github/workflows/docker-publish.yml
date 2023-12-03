@@ -16,7 +16,7 @@ env:
 
 jobs:
   Build-PhoneEdit:
-    environment: PhoneEdit
+    environment: PhoneEditApplication
       
     runs-on: ubuntu-latest
     
