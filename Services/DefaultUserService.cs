@@ -21,7 +21,5 @@ public class DefaultUserService : BackgroundService
             // Создание дефолтного пользователя
             await SampleData.CreateDefaultUser(serviceProvider);
         }
-
-        // Остальной код вашего Worker Service
     }
 }
