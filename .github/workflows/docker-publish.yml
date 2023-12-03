@@ -15,7 +15,7 @@ env:
 
 
 jobs:
-  Build-RTCContentSystem_POSTerminal:
+  Build-PhoneEdit:
     environment: PhoneEdit
       
     runs-on: ubuntu-latest
