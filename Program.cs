@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
 using PhoneEdit.Data;
-using PhoneEdit.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,40 +11,23 @@ builder.Services.Configure<CookiePolicyOptions>(options =>
     options.CheckConsentNeeded = context => true;
     options.MinimumSameSitePolicy = SameSiteMode.None;
 });
-
 // Add services to the container.
 try
 {
-    if (!builder.Environment.IsDevelopment())
-    {
-        var identityContextSecrets = builder.Configuration["ConnectionStringsSec:IdentityContext"] ?? 
-                              throw new InvalidOperationException("Connection string 'IdentityContext' not found.");
-        var phoneBookContextSecrets = builder.Configuration["ConnectionStringsSec:PhoneBookContext"] ?? 
-                               throw new InvalidOperationException("Connection string 'PhoneBookContext' not found.");
+    var identityContextSecrets = builder.Configuration["ConnectionStrings:IdentityContext"] ?? 
+                                 throw new InvalidOperationException("Connection string 'IdentityContext' not found.");
+    var phoneBookContextSecrets = builder.Configuration["ConnectionStrings:PhoneBookContext"] ?? 
+                                  throw new InvalidOperationException("Connection string 'PhoneBookContext' not found.");
         
-        builder.Services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlite(identityContextSecrets));
-        
-        builder.Services.AddDbContext<PhonebookContext>(options =>
-            options.UseMySql(phoneBookContextSecrets, ServerVersion.AutoDetect(phoneBookContextSecrets))
-                .LogTo(Console.WriteLine, LogLevel.Information)
-                .EnableSensitiveDataLogging()
-                .EnableDetailedErrors()
-            );
-    }
-    else
-    {
-        var identityContextDev = builder.Configuration["ConnectionStringsDev:IdentityContext"] ?? 
-                                     throw new InvalidOperationException("Connection string 'IdentityContext' not found.");
-        var phoneBookContextDev = builder.Configuration["ConnectionStringsDev:PhoneBookContext"] ?? 
-                                      throw new InvalidOperationException("Connection string 'PhoneBookContext' not found.");
-        
-        builder.Services.AddDbContext<ApplicationDbContext>(options =>
-            options.UseSqlite(identityContextDev));
-        
-        builder.Services.AddDbContext<PhonebookContext>(options =>
-            options.UseSqlite(phoneBookContextDev));
-    }
+    builder.Services.AddDbContext<ApplicationDbContext>(options => 
+        options.UseSqlite(identityContextSecrets));
+
+    builder.Services.AddDbContext<PhonebookContext>(options => 
+        options.UseMySql(phoneBookContextSecrets, ServerVersion.AutoDetect(phoneBookContextSecrets))
+            .LogTo(Console.WriteLine, LogLevel.Information)
+            .EnableSensitiveDataLogging()
+            .EnableDetailedErrors()
+        );
 }
 catch (MySqlException ex)
 {
@@ -105,17 +87,11 @@ app.MapRazorPages();
 using (var scope = app.Services.CreateScope())
 {
     var appDbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    var phonebookDbContext = scope.ServiceProvider.GetRequiredService<PhonebookContext>();
     var pendingAppDbContextMigrations = appDbContext.Database.GetPendingMigrations().ToList();
-    var pendingPhonebookDbContextMigrations = phonebookDbContext.Database.GetPendingMigrations().ToList();
+
     if (pendingAppDbContextMigrations.Count > 0)
     {
         appDbContext.Database.Migrate();
-    }
-    
-    if (pendingPhonebookDbContextMigrations.Count > 0)
-    {
-        phonebookDbContext.Database.Migrate();
     }
 }
 
