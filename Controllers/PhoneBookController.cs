@@ -111,10 +111,36 @@ namespace PhoneEdit.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,PersonnelNumber,Name,Position,Department,LocalPhoneNumber,CityPhoneNumber,Mail,Room")] BookEntry bookEntry)
         {
-            _context.Entries.Update(bookEntry);
-            await _context.SaveChangesAsync();
-        
-            return RedirectToAction("Index");
+            if (id != bookEntry.Id)
+            {
+                return NotFound();
+            }
+
+            if (!VerifyPersonnelNumber(bookEntry))
+            {
+                ModelState.AddModelError(nameof(bookEntry.PersonnelNumber), "Табельный номер уже существует");
+            }
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(bookEntry);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!BookEntryExists(bookEntry.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(bookEntry);
         }
         
         // GET: PhoneBook/Delete/5
@@ -150,8 +176,7 @@ namespace PhoneEdit.Controllers
         {
             return _context.Entries.Any(e => e.Id == id);
         }
-
-
+        
         // Valid only if personnelNumber is unique
         private bool VerifyPersonnelNumber(string personnelNumber, int id)
         {
