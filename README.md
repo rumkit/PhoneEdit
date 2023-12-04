@@ -5,6 +5,7 @@
 
 
 ### Deploying:
+>docker-compose.yml
 ```yml
 version: '3.8'
 name: compose_name
