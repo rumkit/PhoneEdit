@@ -13,8 +13,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(identityContextSecrets));
     
 builder.Services.AddDbContext<PhonebookContext>(options => 
-    options.UseMySql(phoneBookContextSecrets,ServerVersion.AutoDetect(phoneBookContextSecrets), 
-        b => b.EnableStringComparisonTranslations()));
+    options.UseMySql(phoneBookContextSecrets,ServerVersion.AutoDetect(phoneBookContextSecrets)));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
