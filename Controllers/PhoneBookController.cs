@@ -36,8 +36,8 @@ namespace PhoneEdit.Controllers
             if (!string.IsNullOrEmpty(searchString))
             {
                 entriesQuery = entriesQuery.Where(e =>
-                    e.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase) ||
-                    e.PersonnelNumber.Contains(searchString, StringComparison.OrdinalIgnoreCase));
+                    e.Name.Contains(searchString) ||
+                    e.PersonnelNumber.Contains(searchString));
             }
 
             entriesQuery = entriesQuery.OrderBy(e => e.Name);
