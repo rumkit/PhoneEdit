@@ -42,7 +42,7 @@ namespace PhoneEdit.Controllers
 
             entriesQuery = entriesQuery.OrderBy(e => e.Name);
 
-            int pageSize = 25;
+            const int pageSize = 25;
             int pageNumber = (cPage ?? 1);
 
             var entries = await entriesQuery.ToPagedListAsync(pageNumber, pageSize);
