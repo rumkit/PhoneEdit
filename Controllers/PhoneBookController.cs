@@ -37,6 +37,9 @@ namespace PhoneEdit.Controllers
             {
                 entriesQuery = entriesQuery.Where(e =>
                     e.Name.Contains(searchString) ||
+                    e.Mail.Contains(searchString) ||
+                    e.Room.Contains(searchString) ||
+                    e.LocalPhoneNumber.Contains(searchString) ||
                     e.PersonnelNumber.Contains(searchString));
             }
 
