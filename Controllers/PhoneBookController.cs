@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PhoneEdit.Data;
 using PhoneEdit.Models;
-using X.PagedList;
+using X.PagedList.EF;
 
 namespace PhoneEdit.Controllers
 {
@@ -48,7 +48,7 @@ namespace PhoneEdit.Controllers
             entriesQuery = entriesQuery.OrderBy(e => e.Name);
 
             const int pageSize = 25;
-            int pageNumber = (cPage ?? 1);
+            int pageNumber = cPage ?? 1;
 
             var entries = await entriesQuery.ToPagedListAsync(pageNumber, pageSize);
 
